@@ -22,6 +22,8 @@ export default function App() {
   // para que cada seção já nasça com os assets e animações certos
   const [tier, setTier] = useState<PerfTier | null>(null)
   const [loading, setLoading] = useState(true)
+  const [revealed, setRevealed] = useState(false)
+  const reveal = useCallback(() => setRevealed(true), [])
   const lenis = useLenis()
 
   useEffect(() => {
@@ -43,12 +45,12 @@ export default function App() {
 
   return (
     <PerfContext.Provider value={tier ?? 'high'}>
-      {loading && <Loader onDetected={setTier} onDone={onDone} />}
+      {loading && <Loader onDetected={setTier} onReveal={reveal} onDone={onDone} />}
       <Nav />
       {tier && (
         <>
           <main>
-            <Hero />
+            <Hero intro={revealed} />
             <Marquee items={['Vice City', 'Leonida', '19.11.2026', 'Jason & Lucia', 'Grand Theft Auto VI']} />
             <Trailers />
             <Characters />

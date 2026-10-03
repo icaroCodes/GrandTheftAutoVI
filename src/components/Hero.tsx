@@ -18,7 +18,7 @@ const MASK_ZOOM = 90
  * 2. O "VI" vira uma máscara: dentro dele aparece Vice City e a câmera mergulha pela letra.
  * 3. A sequência de frames do Trailer 1 (voo até a praia) é tocada pelo scroll, com a sinopse.
  */
-export function Hero() {
+export function Hero({ intro }: { intro: boolean }) {
   const root = useRef<HTMLElement>(null)
   const reveal = useRef<HTMLDivElement>(null)
   const [layout, setLayout] = useState<HeroLayout>(pickLayout)
@@ -159,6 +159,99 @@ export function Hero() {
     { scope: root, dependencies: [layout, frames], revertOnUpdate: true },
   )
 
+  /*
+   * Entrada (igual ao site oficial, ~1,7 s depois do loading):
+   * capa ampliada e escura com os painéis separados → a câmera recua e os painéis se encaixam,
+   * com o "VI" aparecendo → "grand theft auto" revelado de cima para baixo → barra e nav sobem.
+   */
+  const introPlayed = useRef(false)
+  useGSAP(
+    () => {
+      if (introPlayed.current) return
+      const q = gsap.utils.selector(root)
+      const { width: lw, height: lh, logoCenter, shards, textBand } = layout
+      const html = document.documentElement
+      const pieces = q('.hero__piece--shard')
+      const barParts = q('.rbar__date, .btn-reserve, .rbar__platforms')
+      const reduced =
+        html.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      if (!intro) {
+        // estado inicial, escondido atrás do loading
+        html.classList.add('hero-intro')
+        gsap.set(q('.hero__intro'), { scale: reduced ? 1 : 2.5, autoAlpha: reduced ? 0 : 0.35 })
+        gsap.set(q('.hero__piece--poster, .hero__piece--logo'), { autoAlpha: 0 })
+        gsap.set(q('.hero__logo-vi'), { autoAlpha: 0, scale: 0.92 })
+        gsap.set(q('.hero__piece--gta'), { '--wipe': `${textBand[0] - 6}%` })
+        gsap.set(barParts, { y: 34, autoAlpha: 0 })
+        gsap.set(q('.hero__chev svg'), { autoAlpha: 0 })
+        pieces.forEach((el, i) => {
+          const [x, y, w, h] = shards[i]
+          const cx = x + w / 2
+          const cy = y + h / 2
+          gsap.set(el, {
+            transformOrigin: `${(cx / lw) * 100}% ${(cy / lh) * 100}%`,
+            xPercent: reduced ? 0 : ((cx - logoCenter[0]) / lw) * 100 * 0.32,
+            yPercent: reduced ? 0 : ((cy - logoCenter[1]) / lh) * 100 * 0.32,
+            rotation: reduced ? 0 : (i % 2 ? 1 : -1) * (2 + (i % 3)),
+            autoAlpha: reduced ? 1 : 0.25,
+          })
+        })
+        return
+      }
+
+      introPlayed.current = true
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+        delay: reduced ? 0 : 0.35, // deixa o loading começar a subir antes
+        onComplete: () => {
+          // deixa o logo final (com sombra) no lugar do "VI" solto
+          gsap.set(q('.hero__logo-vi'), { autoAlpha: 0 })
+        },
+      })
+
+      if (reduced) {
+        tl.to(q('.hero__intro'), { autoAlpha: 1, duration: 0.6 })
+          .set(q('.hero__piece--poster, .hero__piece--logo'), { autoAlpha: 1 }, 0)
+          .set(q('.hero__piece--gta'), { '--wipe': '110%' }, 0)
+          .to(barParts, { y: 0, autoAlpha: 1, duration: 0.5, stagger: 0.06 }, 0.2)
+          .to(q('.hero__chev svg'), { autoAlpha: 1, duration: 0.4 }, 0.4)
+          .add(() => html.classList.remove('hero-intro'), 0.2)
+        return
+      }
+
+      // 1) a câmera recua e a capa clareia
+      tl.to(q('.hero__intro'), { scale: 1, duration: 1.05, ease: 'expo.out' }, 0)
+        .to(q('.hero__intro'), { autoAlpha: 1, duration: 0.5, ease: 'power1.out' }, 0)
+        // 2) painéis se encaixam (os mais próximos do logo primeiro)
+        .to(
+          pieces,
+          {
+            xPercent: 0,
+            yPercent: 0,
+            rotation: 0,
+            autoAlpha: 1,
+            duration: 0.85,
+            ease: 'power3.out',
+            stagger: { each: 0.025, from: 'center' },
+          },
+          0.05,
+        )
+        // "VI" sem o texto aparece no meio do recuo
+        .to(q('.hero__logo-vi'), { autoAlpha: 1, scale: 1, duration: 0.55, ease: 'power2.out' }, 0.22)
+        // 3) moldura escura do pôster por trás dos painéis
+        .to(q('.hero__piece--poster'), { autoAlpha: 1, duration: 0.35, ease: 'power1.out' }, 0.6)
+        // 4) cortina revelando "grand theft auto" de cima para baixo
+        .to(q('.hero__piece--gta'), { '--wipe': `${textBand[1] + 8}%`, duration: 0.6, ease: 'power1.inOut' }, 0.82)
+        .to(q('.hero__piece--logo'), { autoAlpha: 1, duration: 0.25, ease: 'none' }, 1.38)
+        // 5) barra de lançamento, seta e navegação
+        .to(barParts, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.08 }, 1.32)
+        .to(q('.hero__chev svg'), { autoAlpha: 1, duration: 0.5 }, 1.55)
+        .add(() => html.classList.remove('hero-intro'), 1.4)
+    },
+    { scope: root, dependencies: [intro, layout] },
+  )
+
   const ar = layout.width / layout.height
 
   return (
@@ -168,13 +261,28 @@ export function Hero() {
         <div className="hero__shade" />
       </div>
 
+      {/* .hero__intro e .hero__piece são animados só pela entrada; as imagens, pelo scroll */}
       <div className="hero__stage">
-        <img className="hero__poster" src={img(`${layout.dir}/poster`)} alt="" fetchPriority="high" />
-        {layout.shards.map((_, i) => (
-          <img key={i} className="hero__shard" src={img(`${layout.dir}/shard${i}`)} alt="" />
-        ))}
-        <img className="hero__logo" src={img(`${layout.dir}/logo`)} alt="Grand Theft Auto VI" />
-        <img className="hero__logo-gta" src={img(`${layout.dir}/logo-gta`)} alt="" />
+        <div className="hero__intro">
+          <div className="hero__piece hero__piece--poster">
+            <img className="hero__poster" src={img(`${layout.dir}/poster`)} alt="" fetchPriority="high" />
+          </div>
+          {layout.shards.map((_, i) => (
+            <div key={i} className="hero__piece hero__piece--shard">
+              <img className="hero__shard" src={img(`${layout.dir}/shard${i}`)} alt="" />
+            </div>
+          ))}
+          <img className="hero__logo-vi" src={img(`${layout.dir}/logo-vi`)} alt="" />
+          <div className="hero__piece hero__piece--logo">
+            <img className="hero__logo" src={img(`${layout.dir}/logo`)} alt="Grand Theft Auto VI" />
+          </div>
+          <div
+            className="hero__piece hero__piece--gta"
+            style={{ ['--band-top' as string]: `${layout.textBand[0]}%`, ['--band-bottom' as string]: `${layout.textBand[1]}%` }}
+          >
+            <img className="hero__logo-gta" src={img(`${layout.dir}/logo-gta`)} alt="" />
+          </div>
+        </div>
       </div>
       <div className="hero__frame" aria-hidden />
 

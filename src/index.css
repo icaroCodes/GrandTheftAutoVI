@@ -326,7 +326,8 @@ h2.display {
   transition:
     padding 0.4s var(--ease),
     background-color 0.4s,
-    backdrop-filter 0.4s;
+    backdrop-filter 0.4s,
+    opacity 0.7s ease;
 }
 .nav--solid {
   padding-top: 16px;
@@ -939,6 +940,25 @@ html[data-motion='reduced'] .coll__item img {
   will-change: transform, opacity;
 }
 
+/* camadas da entrada (animadas só pela intro; as imagens dentro são do scroll) */
+.hero__intro,
+.hero__piece {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+/* cortina de cima para baixo revelando "grand theft auto" (--wipe animado pelo GSAP) */
+.hero__piece--gta {
+  --wipe: 110%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--wipe) - 6%), transparent calc(var(--wipe) + 2%));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--wipe) - 6%), transparent calc(var(--wipe) + 2%));
+}
+/* navegação aparece só no fim da entrada */
+html.hero-intro .nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* moldura invisível: define tamanho/posição da capa no estado inicial */
 .hero__frame {
   position: absolute;
@@ -954,11 +974,10 @@ html[data-motion='reduced'] .coll__item img {
 }
 .hero__bar {
   position: absolute;
-  left: 50%;
+  left: calc(50% - var(--card-w) / 2);
   top: calc(var(--frame-top) + var(--card-w) / var(--ar) + clamp(24px, 4.5vh, 48px));
   z-index: 3;
   width: var(--card-w);
-  translate: -50% 0;
 }
 .rbar {
   display: grid;
@@ -1083,9 +1102,11 @@ html[data-motion='reduced'] .coll__item img {
   }
   .hero .btn-reserve {
     position: absolute;
-    left: 50%;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-inline: auto;
     top: calc(var(--frame-top) + var(--card-w) / var(--ar) + clamp(70px, 11svh, 104px));
-    translate: -50% 0;
     padding: 17px 32px;
     font-size: 19px;
     pointer-events: auto;

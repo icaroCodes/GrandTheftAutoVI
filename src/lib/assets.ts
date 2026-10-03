@@ -34,6 +34,8 @@ export type HeroLayout = {
   logoCenter: [number, number]
   /** ponto dentro da letra "I" usado para o zoom da máscara */
   maskFocus: [number, number]
+  /** faixa vertical (% da altura) ocupada por "grand theft auto" — revelada na entrada */
+  textBand: [number, number]
   shards: [number, number, number, number][]
 }
 
@@ -43,6 +45,7 @@ export const HERO_DESKTOP: HeroLayout = {
   dir: 'hero',
   logoCenter: [1231, 781],
   maskFocus: [1528, 781],
+  textBand: [37.2, 68.3],
   shards: [
     [40, 40, 458, 590],
     [518, 40, 752, 764],
@@ -63,6 +66,7 @@ export const HERO_MOBILE: HeroLayout = {
   dir: 'hero-m',
   logoCenter: [894, 1038],
   maskFocus: [1303, 1038],
+  textBand: [31, 62.1],
   shards: [
     [52, 52, 508, 556],
     [586, 52, 736, 750],

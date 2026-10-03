@@ -31,7 +31,16 @@ function preload(urls: string[], onEach: () => void) {
  * Loading com o "VI" de palmeiras. Enquanto pré-carrega a capa e os primeiros frames,
  * avalia o dispositivo (CPU, memória, GPU, rede e FPS real) e decide o nível de desempenho.
  */
-export function Loader({ onDetected, onDone }: { onDetected: (tier: PerfTier) => void; onDone: () => void }) {
+export function Loader({
+  onDetected,
+  onReveal,
+  onDone,
+}: {
+  onDetected: (tier: PerfTier) => void
+  /** chamado quando o loading começa a sair — dispara a entrada do hero */
+  onReveal: () => void
+  onDone: () => void
+}) {
   const [progress, setProgress] = useState(0)
   const [status, setStatus] = useState('Carregando Vice City')
   const [report, setReport] = useState<PerfReport | null>(null)
@@ -67,9 +76,10 @@ export function Loader({ onDetected, onDone }: { onDetected: (tier: PerfTier) =>
       setProgress(1)
       await new Promise((r) => setTimeout(r, 900)) // tempo para ler o resultado
       setVisible(false)
+      onReveal()
     }
     run()
-  }, [onDetected])
+  }, [onDetected, onReveal])
 
   const pct = Math.round(progress * 100)
   const label = report ? TIER_LABEL[report.tier] : null
@@ -87,8 +97,8 @@ export function Loader({ onDetected, onDone }: { onDetected: (tier: PerfTier) =>
           role="status"
           aria-live="polite"
           aria-label={`Carregando ${pct}%`}
-          exit={{ clipPath: 'inset(0% 0% 100% 0%)' }}
-          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.7, ease: 'easeInOut' }}
         >
           <div className="loader__aurora" aria-hidden>
             <i />
@@ -100,7 +110,7 @@ export function Loader({ onDetected, onDone }: { onDetected: (tier: PerfTier) =>
             className="loader__logo"
             initial={{ opacity: 0, scale: 0.86, filter: 'blur(12px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={{ scale: 1.25, opacity: 0, y: -60 }}
+            exit={{ scale: 1.12, opacity: 0, filter: 'blur(10px)' }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             style={{ ['--vi' as string]: `url(${BASE}img/brand/vi-palms.svg)` }}
           >
