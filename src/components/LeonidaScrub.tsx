@@ -6,19 +6,15 @@ import { usePerf } from '../lib/perf'
 import { gsap, useGSAP } from '../lib/scroll'
 import { SplitWords } from './SplitWords'
 
-/**
- * Vídeo controlado pelo scroll: o voo ao pôr do sol do Trailer 2 avança
- * conforme a rolagem (currentTime = progresso). O MP4 foi codificado com
- * keyframes a cada 4 frames para o scrub ficar suave.
- */
+// O scroll controla o currentTime do voo do Trailer 2. O MP4 tem keyframe a cada 4 frames
+// (extract-media.mjs), senão o seek trava.
 export function LeonidaScrub() {
   const root = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [active, setActive] = useState(0)
-  // modo leve: imagem com zoom no lugar do vídeo
   const lite = usePerf() === 'low'
 
-  // Carrega o vídeo inteiro em memória (blob) — seeking instantâneo, sem range requests.
+  // blob em memória: com range requests o seek fica engasgando no Chrome
   useEffect(() => {
     if (lite) return
     const v = videoRef.current!
@@ -100,7 +96,7 @@ export function LeonidaScrub() {
       <h2 className="lscrub__title display">
         <SplitWords text="Só em" />
         <br />
-        <SplitWords text="Leonida" wordClassName="grad" />
+        <SplitWords text="Leonida" />
       </h2>
 
       <div className="lscrub__places">
@@ -130,7 +126,7 @@ export function LeonidaScrub() {
       </div>
 
       <p className="lscrub__outro display">
-        O lado mais sombrio do <span className="grad">lugar mais ensolarado</span> dos EUA.
+        O lado mais sombrio do lugar mais ensolarado dos EUA.
       </p>
     </section>
   )

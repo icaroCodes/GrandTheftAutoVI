@@ -3,20 +3,14 @@ import { motion } from 'framer-motion'
 import { PLACES } from '../lib/content'
 import { img, responsive } from '../lib/assets'
 
-/** Acordeão de locais: o painel em foco expande (Framer Motion layout). */
 export function Places() {
   const [open, setOpen] = useState(0)
 
   return (
     <section className="places container" aria-label="Locais de Leonida">
       <header className="section-head section-head--row">
-        <div>
-          <p className="eyebrow">O estado do sol</p>
-          <h2 className="display">
-            Destinos <span className="grad">imperdíveis</span>
-          </h2>
-        </div>
-        <p className="lead">Um tour por alguns dos lugares mais famosos — e infames — do estado de Leonida.</p>
+        <h2 className="display">De Vice City a Mount Kalaga</h2>
+        <p className="lead">Alguns dos lugares mais famosos do estado. E alguns dos mais mal falados.</p>
       </header>
 
       <div className="places__row">
@@ -30,9 +24,6 @@ export function Places() {
             onClick={() => setOpen(i)}
             style={{ flex: open === i ? 5 : 1 }}
             transition={{ layout: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             aria-expanded={open === i}
           >
             <motion.img layout {...responsive(img(`places/${p.id}`), '(max-width: 960px) 100vw, 60vw')} alt="" loading="lazy" />

@@ -1,12 +1,10 @@
 const BASE = import.meta.env.BASE_URL
 
-/** Imagem otimizada gerada por scripts/optimize-images.mjs */
 export const img = (name: string) => `${BASE}img/${name}.webp`
 
-/** Vídeos e sequências extraídos dos trailers por scripts/extract-media.mjs */
 export const video = (name: string) => `${BASE}media/video/${name}.mp4`
 
-/** Quadro estático do vídeo (modo leve), gerado por scripts/derive-light.mjs */
+// pôster gerado por derive-light.mjs, usado no lugar do vídeo no modo leve
 export const videoPoster = (name: string) => `${BASE}media/video/${name}.webp`
 
 export const frameUrls = (name: string, count: number) =>
@@ -34,7 +32,7 @@ export type HeroLayout = {
   logoCenter: [number, number]
   /** ponto dentro da letra "I" usado para o zoom da máscara */
   maskFocus: [number, number]
-  /** faixa vertical (% da altura) ocupada por "grand theft auto" — revelada na entrada */
+  /** faixa vertical (% da altura) do "grand theft auto", revelada na entrada */
   textBand: [number, number]
   shards: [number, number, number, number][]
 }

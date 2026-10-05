@@ -1,5 +1,5 @@
 // Gera as variantes leves usadas nos modos "médio" e "leve" (detectados no loading)
-// a partir dos arquivos já extraídos — não precisa de internet.
+// a partir dos arquivos já extraídos, sem internet.
 // Uso: node scripts/derive-light.mjs   (rode depois de extract-media.mjs)
 import { spawnSync } from 'node:child_process'
 import { mkdirSync, readdirSync, rmSync, existsSync } from 'node:fs'

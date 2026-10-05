@@ -4,7 +4,6 @@ import { PerfContext, type PerfTier } from './lib/perf'
 import { Loader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Hero } from './components/Hero'
-import { Marquee } from './components/Marquee'
 import { Trailers } from './components/Trailers'
 import { Characters } from './components/Characters'
 import { LeonidaScrub } from './components/LeonidaScrub'
@@ -18,8 +17,7 @@ import { Extras } from './components/Extras'
 import { Footer } from './components/Footer'
 
 export default function App() {
-  // o nível de desempenho é decidido no loading; a página só monta depois disso,
-  // para que cada seção já nasça com os assets e animações certos
+  // a página só monta depois do teste de desempenho, assim cada seção já pega os assets do nível certo
   const [tier, setTier] = useState<PerfTier | null>(null)
   const [loading, setLoading] = useState(true)
   const [revealed, setRevealed] = useState(false)
@@ -32,7 +30,7 @@ export default function App() {
   }, [loading, lenis])
 
   useEffect(() => {
-    // imagens lazy mudam a altura das seções — recalcula os gatilhos ao terminar de carregar
+    // imagens lazy mudam a altura das seções e desalinham os gatilhos do ScrollTrigger
     const refresh = () => ScrollTrigger.refresh()
     window.addEventListener('load', refresh)
     return () => window.removeEventListener('load', refresh)
@@ -51,13 +49,11 @@ export default function App() {
         <>
           <main>
             <Hero intro={revealed} />
-            <Marquee items={['Vice City', 'Leonida', '19.11.2026', 'Jason & Lucia', 'Grand Theft Auto VI']} />
             <Trailers />
             <Characters />
             <LeonidaScrub />
             <Cast />
             <Places />
-            <Marquee tone="dark" items={['Pré-venda disponível', 'PlayStation 5', 'Xbox Series X|S', 'Vintage Vice City Pack']} />
             <Editions />
             <Vintage />
             <Collection />

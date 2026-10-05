@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 
-/** Quebra o texto em palavras com máscara (para animações de entrada palavra a palavra). */
 export function SplitWords({ text, className, wordClassName = '' }: { text: string; className?: string; wordClassName?: string }) {
   const words = text.split(' ')
   return (

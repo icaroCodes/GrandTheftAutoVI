@@ -70,7 +70,6 @@ const LOCALES = [
 
 const ease = [0.76, 0, 0.24, 1] as const
 
-/** Seção visível no momento (para destacar o item ativo, como "Início" no site oficial). */
 function currentSection() {
   const ids = ['inicio', 'trailers', 'personagens', 'leonida', 'edicoes', 'vintage', 'colecao', 'extras']
   let active = 'inicio'
@@ -106,7 +105,6 @@ export function Menu({ open, onClose, onNavigate }: { open: boolean; onClose: ()
     }
   })
 
-  // estado ao abrir/fechar
   useEffect(() => {
     if (!open) return
     lenis?.stop()

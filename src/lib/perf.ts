@@ -5,7 +5,7 @@ import { frameUrls } from './assets'
  * Níveis de desempenho decididos no loading:
  * - high:   experiência completa (todos os frames, vídeo no scroll, scroll suave)
  * - medium: metade dos frames nas sequências, sem desfoque de fundo
- * - low:    modo leve — 1/3 dos frames, imagens no lugar de vídeos, sem scroll suave
+ * - low:    modo leve: 1/3 dos frames, imagens no lugar de vídeos, sem scroll suave
  *           e sem animações em loop
  */
 export type PerfTier = 'high' | 'medium' | 'low'

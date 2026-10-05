@@ -1,6 +1,5 @@
 import { Ps5Logo, XboxLogo } from './BrandIcons'
 
-/** Barra "Disponível em · Reserve agora · plataformas", usada no hero e no menu (como no site oficial). */
 export function ReleaseBar({ className = '', onReserve }: { className?: string; onReserve: () => void }) {
   return (
     <div className={`rbar ${className}`}>

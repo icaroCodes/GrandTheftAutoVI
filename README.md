@@ -1,7 +1,6 @@
-# Grand Theft Auto VI — Landing Page
+# Grand Theft Auto VI (landing conceitual)
 
-Landing page conceitual de GTA VI em \***\*React + TypeScript\*\***, com \***\*GSAP (ScrollTrigger)\*\***, \***\*Framer Motion\*\*** e \***\*Lenis\*\***,
-
-inspirada em [rockstargames.com/VI](https://www.rockstargames.com/VI). Não é afiliada à Rockstar Games.
+Landing page de GTA VI feita com React, TypeScript, GSAP (ScrollTrigger), Framer Motion e Lenis, inspirada em
+[rockstargames.com/VI](https://www.rockstargames.com/VI). Não tem ligação com a Rockstar Games.
 
 <img src="./public/img/brand/hero.png" alt="Grand Theft Auto VI">

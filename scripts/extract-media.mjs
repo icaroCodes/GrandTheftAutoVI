@@ -1,5 +1,5 @@
 // Extrai trechos dos trailers oficiais (rockstargames.com/VI/downloads) direto via HTTP
-// (o ffmpeg lê só os bytes necessários com range requests — não baixa os ~2GB inteiros).
+// (o ffmpeg lê só os bytes necessários com range requests, sem baixar os ~2GB inteiros).
 // Gera: sequências de frames (canvas scroll) e vídeos curtos para scrub/loop.
 // Uso: node scripts/extract-media.mjs
 import { spawnSync } from 'node:child_process'
@@ -48,13 +48,13 @@ function clip(name, src, start, duration, width, { scrub = false } = {}) {
   console.log(`video/${name}.mp4`)
 }
 
-// Trailer 1 — voo aéreo sobre o mar até a praia de Vice City
+// Trailer 1, 0:11: voo sobre o mar até a praia de Vice City
 frames('vice-beach', T1, 11.2, 3.3, 30, 1600)
-// Trailer 1 — revelação do logo VI + data de lançamento
+// Trailer 1, 1:19: logo VI e data de lançamento
 frames('logo-reveal', T1, 78.95, 8.9, 14, 1280, 120)
-// Trailer 2 — voo sobre a estrada ao pôr do sol (vídeo controlado pelo scroll)
+// Trailer 2, 2:33: voo sobre a estrada ao pôr do sol (vídeo do scroll)
 clip('leonida-scrub', T2, 153.05, 3.25, 1600, { scrub: true })
-// Trailer 1 — pântano, flamingos, praia e lancha: loop de fundo da seção de trailers
+// Trailer 1, 0:19: pântano, flamingos, praia e lancha (fundo dos trailers)
 clip('trailers-loop', T1, 18.95, 5.9, 1280)
 // Clipes curtos dos personagens (site oficial)
 const jason = readdirSync(VI).find((f) => f.startsWith('Jason_Duval_Video_Clip'))

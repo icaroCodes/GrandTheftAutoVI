@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { frameSet, usePerf } from '../lib/perf'
 import { useFrameSequence } from '../lib/frames'
 import { RELEASE_DATE } from '../lib/content'
@@ -13,37 +12,14 @@ function useCountdown(target: Date) {
     return () => clearInterval(id)
   }, [])
   const diff = Math.max(0, target.getTime() - now)
+  const pad = (n: number) => String(n).padStart(2, '0')
   return {
-    dias: Math.floor(diff / 86_400_000),
-    horas: Math.floor(diff / 3_600_000) % 24,
-    min: Math.floor(diff / 60_000) % 60,
-    seg: Math.floor(diff / 1000) % 60,
+    days: Math.floor(diff / 86_400_000),
+    clock: `${pad(Math.floor(diff / 3_600_000) % 24)}:${pad(Math.floor(diff / 60_000) % 60)}:${pad(Math.floor(diff / 1000) % 60)}`,
   }
 }
 
-function Digit({ value }: { value: number }) {
-  const text = String(value).padStart(2, '0')
-  return (
-    <span className="cd__value">
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={text}
-          initial={{ y: '-100%', opacity: 0 }}
-          animate={{ y: '0%', opacity: 1 }}
-          exit={{ y: '100%', opacity: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {text}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  )
-}
-
-/**
- * Final: a revelação do logo do Trailer 1 é tocada frame a frame pelo scroll (canvas),
- * e então surge a contagem regressiva para o lançamento.
- */
+// Revelação do logo no fim do Trailer 1, frame a frame no scroll.
 export function Finale() {
   const root = useRef<HTMLElement>(null)
   const tier = usePerf()
@@ -70,16 +46,12 @@ export function Finale() {
 
   return (
     <section ref={root} id="pre-venda" className="finale" aria-label="Pré-venda">
-      <canvas ref={canvasRef} className="finale__canvas" aria-label="Grand Theft Auto VI — 19 de novembro de 2026" />
+      <canvas ref={canvasRef} className="finale__canvas" aria-label="Grand Theft Auto VI, 19 de novembro de 2026" />
       <div className="finale__content">
-        <div className="cd" role="timer" aria-label="Contagem regressiva para o lançamento">
-          {Object.entries(countdown).map(([label, value]) => (
-            <div key={label} className="cd__cell">
-              <Digit value={value} />
-              <span className="cd__label">{label}</span>
-            </div>
-          ))}
-        </div>
+        <p className="cd" role="timer" aria-label="Tempo até o lançamento">
+          Faltam <b className="display cd__days">{countdown.days}</b> dias
+          <span className="cd__clock">{countdown.clock}</span>
+        </p>
         <div className="finale__ctas">
           <button className="btn btn--primary btn--lg" onClick={() => scrollTo('edicoes')}>
             Fazer pré-venda

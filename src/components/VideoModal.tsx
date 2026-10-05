@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { Trailer } from '../lib/content'
 import { useLenis } from '../lib/scroll'
@@ -17,7 +18,8 @@ export function VideoModal({ trailer, onClose }: { trailer: Trailer | null; onCl
     }
   }, [trailer, lenis, onClose])
 
-  return (
+  // portal: o .trailers tem isolation: isolate e prenderia o modal abaixo das seções seguintes
+  return createPortal(
     <AnimatePresence>
       {trailer && (
         <motion.div
@@ -63,7 +65,7 @@ export function VideoModal({ trailer, onClose }: { trailer: Trailer | null; onCl
               ) : (
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${trailer.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
-                  title={`${trailer.subtitle} — ${trailer.title}`}
+                  title={trailer.title}
                   allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                   allowFullScreen
                 />
@@ -71,7 +73,7 @@ export function VideoModal({ trailer, onClose }: { trailer: Trailer | null; onCl
             </div>
             <div className="modal__bar">
               <div>
-                <p className="eyebrow">{trailer.subtitle}</p>
+                <p className="modal__sub">{trailer.subtitle}</p>
                 <p className="modal__title">{trailer.title}</p>
               </div>
               <div className="modal__actions">
@@ -87,13 +89,14 @@ export function VideoModal({ trailer, onClose }: { trailer: Trailer | null; onCl
                   YouTube
                 </a>
                 <button className="btn btn--primary btn--sm" onClick={onClose} aria-label="Fechar vídeo">
-                  Fechar ✕
+                  Fechar
                 </button>
               </div>
             </div>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }

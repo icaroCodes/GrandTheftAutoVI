@@ -15,7 +15,7 @@ export const STORY = {
   body:
     'Jason e Lucia sempre souberam que as cartas estão marcadas contra eles. Mas quando um golpe fácil dá errado, ' +
     'eles se veem no lado mais sombrio do lugar mais ensolarado dos Estados Unidos, no meio de uma conspiração ' +
-    'criminosa que se espalha por todo o estado de Leonida — forçados a confiar um no outro mais do que nunca ' +
+    'criminosa que se espalha por todo o estado de Leonida. Agora vão ter que confiar um no outro mais do que nunca ' +
     'se quiserem sair vivos.',
 }
 
@@ -103,8 +103,8 @@ export const PROTAGONISTS: Protagonist[] = [
     name: ['Lucia', 'Caminos'],
     tagline: 'O pai de Lucia a ensinou a lutar assim que ela aprendeu a andar.',
     bio: [
-      'A vida vem batendo nela desde então. Lutar pela família a levou para a Penitenciária de Leonida. Pura sorte a tirou de lá. Lucia aprendeu a lição — daqui pra frente, só jogadas inteligentes.',
-      'Mais do que tudo, Lucia quer a vida boa que sua mãe sonha desde os tempos de Liberty City — mas, em vez de fantasias pela metade, ela está pronta para tomar as rédeas da situação.',
+      'A vida vem batendo nela desde então. Lutar pela família a levou para a Penitenciária de Leonida. Pura sorte a tirou de lá. Lucia aprendeu a lição: daqui pra frente, só jogada inteligente.',
+      'Lucia quer a vida boa que a mãe sonha desde os tempos de Liberty City. Só que, em vez de esperar, ela resolveu ir buscar.',
     ],
     quotes: ['A única coisa que importa é quem você conhece e o que você tem.', 'Uma vida com Jason pode ser a saída dela.'],
     clip: 'lucia',
@@ -136,8 +136,8 @@ export const CAST: CastMember[] = [
   {
     id: 'boobie',
     name: 'Boobie Ike',
-    tagline: 'É tudo sobre coração — o Valete de Copas.',
-    bio: 'Uma lenda local de Vice City — e age como tal. Transformou o tempo nas ruas em um império legítimo de imóveis, uma boate e um estúdio de gravação.',
+    tagline: 'É tudo questão de coração. O Valete de Copas.',
+    bio: 'Uma lenda de Vice City, e ele age como tal. Transformou o tempo nas ruas em um império legítimo de imóveis, uma boate e um estúdio de gravação.',
     quote: 'O dinheiro da boate paga o estúdio, e o dinheiro da droga paga tudo.',
     place: 'Leonida Keys',
     color: '#c79bff',
@@ -155,7 +155,7 @@ export const CAST: CastMember[] = [
     id: 'dimez',
     name: 'Real Dimez',
     tagline: 'Vídeos virais. Refrões virais.',
-    bio: 'Bae-Luxe e Roxy são amigas desde o colégio — com a malandragem de transformar o tempo extorquindo traficantes locais em dinheiro vivo, via faixas de rap apimentadas e presença incansável nas redes.',
+    bio: 'Bae-Luxe e Roxy são amigas desde o colégio. Transformaram o tempo extorquindo traficantes em dinheiro, com rap apimentado e muita presença nas redes.',
     quote: 'A um hit de distância da fama.',
     place: 'Port Gellhorn',
     color: '#7cf0c5',
@@ -164,7 +164,7 @@ export const CAST: CastMember[] = [
     id: 'raul',
     name: 'Raul Bautista',
     tagline: 'Experiência conta.',
-    bio: 'Confiança, charme e astúcia — Raul é um assaltante de bancos veterano, sempre à caça de talentos dispostos a correr os riscos que trazem as maiores recompensas.',
+    bio: 'Raul é um assaltante de bancos veterano e confiante, sempre atrás de gente disposta a correr o risco que paga melhor.',
     quote: 'A vida é cheia de surpresas, meu amigo.',
     place: 'Ambrosia',
     color: '#ffd36b',
@@ -174,7 +174,7 @@ export const CAST: CastMember[] = [
     name: 'Brian Heder',
     tagline: 'Nada melhor que um Mudslide ao pôr do sol.',
     bio: 'Um traficante clássico da era de ouro do contrabando nas Keys. Ainda movimenta produto pelo seu estaleiro com a terceira esposa, Lori.',
-    quote: 'Parece um vagabundo de praia de Leonida — se move como um tubarão-branco.',
+    quote: 'Tem cara de vagabundo de praia de Leonida e se mexe como um tubarão-branco.',
     place: 'Mount Kalaga',
     color: '#ffb0c4',
   },
@@ -258,7 +258,7 @@ export const NEWS = [
     href: 'https://www.rockstargames.com/newswire/article/7599a881942544',
   },
   {
-    title: 'Grand Theft Auto VI: Um Olhar Estendido — Disponível agora',
+    title: 'Grand Theft Auto VI: Um Olhar Estendido já está disponível',
     date: '27 ago 2026',
     image: img('news/extended-look'),
     href: 'https://www.rockstargames.com/newswire/article/4k138k8okkk483',

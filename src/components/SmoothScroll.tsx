@@ -2,7 +2,6 @@ import { useEffect, useState, type ReactNode } from 'react'
 import Lenis from 'lenis'
 import { gsap, LenisContext, ScrollTrigger } from '../lib/scroll'
 
-/** Scroll suave com Lenis sincronizado ao ticker do GSAP/ScrollTrigger. */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null)
 
@@ -22,7 +21,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     const tick = (time: number) => instance.raf(time * 1000)
     gsap.ticker.add(tick)
     gsap.ticker.lagSmoothing(0)
-    // a instância só existe depois de montar (precisa do window) — expõe via contexto
+    // a instância só existe depois de montar (precisa do window), por isso vai pelo contexto
     // oxlint-disable-next-line react/set-state-in-effect
     setLenis(instance)
     return () => {

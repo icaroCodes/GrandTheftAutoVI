@@ -8,13 +8,11 @@ const PLATFORMS: { id: Platform; label: string }[] = [
   { id: 'xbox', label: 'Xbox Series X|S' },
 ]
 
-function EditionCard({ e, platform, index }: { e: (typeof EDITIONS)[number]; platform: Platform; index: number }) {
+function EditionCard({ e, platform }: { e: (typeof EDITIONS)[number]; platform: Platform }) {
   const mx = useMotionValue(0.5)
   const my = useMotionValue(0.5)
   const rotateY = useSpring(useTransform(mx, [0, 1], [-9, 9]), { stiffness: 160, damping: 18 })
   const rotateX = useSpring(useTransform(my, [0, 1], [8, -8]), { stiffness: 160, damping: 18 })
-  const glareX = useTransform(mx, (v) => `${v * 100}%`)
-  const glareY = useTransform(my, (v) => `${v * 100}%`)
   const ultimate = e.id === 'ultimate'
 
   const onMove = (ev: PointerEvent<HTMLDivElement>) => {
@@ -28,21 +26,9 @@ function EditionCard({ e, platform, index }: { e: (typeof EDITIONS)[number]; pla
   }
 
   return (
-    <motion.article
-      className={`edition ${ultimate ? 'edition--ultimate' : ''}`}
-      initial={{ opacity: 0, y: 80 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 1, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <article className={`edition ${ultimate ? 'edition--ultimate' : ''}`}>
       <motion.div className="edition__cover" style={{ rotateX, rotateY }} onPointerMove={onMove} onPointerLeave={reset}>
-        <img src={e.cover} alt={`Capa — ${e.name}`} loading="lazy" />
-        <motion.span
-          className="edition__glare"
-          style={{ ['--gx' as string]: glareX, ['--gy' as string]: glareY }}
-          aria-hidden
-        />
-        {ultimate && <span className="tag edition__badge">Mais completa</span>}
+        <img src={e.cover} alt={`Capa da ${e.name}`} loading="lazy" />
       </motion.div>
       <div className="edition__body">
         <h3 className="display edition__name">{e.name}</h3>
@@ -58,7 +44,7 @@ function EditionCard({ e, platform, index }: { e: (typeof EDITIONS)[number]; pla
           Comprar · {platform === 'ps5' ? 'PlayStation 5' : 'Xbox Series X|S'}
         </a>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -67,27 +53,16 @@ function UltimateCarousel() {
   return (
     <div className="ucar">
       <div className="ucar__head">
-        <div>
-          <p className="eyebrow">Ultimate Edition</p>
-          <h3 className="display ucar__title">Uma coleção exclusiva</h3>
-        </div>
-        <p className="lead">Itens entrelaçados em todos os aspectos da história de Jason e Lucia. Arraste para explorar →</p>
+        <h3 className="display ucar__title">O que vem na Ultimate</h3>
+        <p className="lead">Carros, armas, roupas e lojas ligados à história de Jason e Lucia. Arraste para o lado.</p>
       </div>
       <div className="ucar__viewport" ref={bounds}>
         <motion.ul className="ucar__track" drag="x" dragConstraints={bounds} dragElastic={0.08} whileTap={{ cursor: 'grabbing' }}>
-          {ULTIMATE_ITEMS.map((it, i) => (
-            <motion.li
-              key={it.id}
-              className="ucar__item"
-              initial={{ opacity: 0, x: 80 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: Math.min(i, 5) * 0.08, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -10 }}
-            >
+          {ULTIMATE_ITEMS.map((it) => (
+            <li key={it.id} className="ucar__item">
               <img {...responsive(img(`ultimate/${it.id}`), '380px')} alt="" loading="lazy" draggable={false} />
               <span>{it.name}</span>
-            </motion.li>
+            </li>
           ))}
         </motion.ul>
       </div>
@@ -105,10 +80,7 @@ export function Editions() {
       </div>
       <div className="container">
         <header className="section-head section-head--center">
-          <p className="eyebrow">Pré-venda disponível</p>
-          <h2 className="display">
-            Escolha sua <span className="grad">edição</span>
-          </h2>
+          <h2 className="display">Pré-venda</h2>
           <div className="toggle" role="tablist" aria-label="Plataforma">
             {PLATFORMS.map((p) => (
               <button key={p.id} role="tab" aria-selected={platform === p.id} onClick={() => setPlatform(p.id)}>
@@ -122,12 +94,12 @@ export function Editions() {
         </header>
 
         <div className="editions__grid">
-          {EDITIONS.map((e, i) => (
-            <EditionCard key={e.id} e={e} platform={platform} index={i} />
+          {EDITIONS.map((e) => (
+            <EditionCard key={e.id} e={e} platform={platform} />
           ))}
         </div>
         <p className="editions__note">
-          Preços da PlayStation Store Brasil; podem variar entre lojas e plataformas. Também disponível na{' '}
+          Preços da PlayStation Store Brasil, podem mudar de uma loja para outra. Também está à venda na{' '}
           <a href={STORE_URL} target="_blank" rel="noreferrer">
             Rockstar Store
           </a>
