@@ -88,7 +88,8 @@ type NavigatorExtras = Navigator & {
   connection?: { saveData?: boolean; effectiveType?: string }
 }
 
-export async function detectPerf(): Promise<PerfReport> {
+/** Sinais que dá para ler na hora, sem medir nada. */
+function heuristics() {
   const nav = navigator as NavigatorExtras
   const reasons: string[] = []
   let penalty = 0
@@ -123,7 +124,14 @@ export async function detectPerf(): Promise<PerfReport> {
     penalty += 2
     reasons.push('sem aceleração de vídeo (GPU)')
   }
+  return { penalty, reasons }
+}
 
+const toTier = (penalty: number): PerfTier => (penalty >= 2 ? 'low' : penalty >= 1 ? 'medium' : 'high')
+
+export async function detectPerf(): Promise<PerfReport> {
+  const { penalty: base, reasons } = heuristics()
+  let penalty = base
   const fps = await measureFps()
   if (fps < 35) {
     penalty += 2
@@ -132,9 +140,37 @@ export async function detectPerf(): Promise<PerfReport> {
     penalty += 1
     reasons.push(`${fps} FPS no teste`)
   }
+  return { tier: toTier(penalty), fps, reasons }
+}
 
-  const tier: PerfTier = penalty >= 2 ? 'low' : penalty >= 1 ? 'medium' : 'high'
-  return { tier, fps, reasons }
+const MEASURED_KEY = 'perf-measured'
+
+/**
+ * Nível usado para montar a página já no primeiro frame: escolha manual, senão o FPS medido numa
+ * visita anterior, senão só a heurística. Esperar o teste de FPS aqui atrasava o LCP em segundos.
+ */
+export function initialTier(): PerfTier {
+  const override = readOverride()
+  if (override) return override
+  try {
+    const measured = localStorage.getItem(MEASURED_KEY)
+    if (measured && TIERS.includes(measured as PerfTier)) return measured as PerfTier
+  } catch {
+    /* armazenamento indisponível */
+  }
+  return toTier(heuristics().penalty)
+}
+
+/** Mede o FPS com a página já parada e guarda o resultado para a próxima visita. */
+export function rememberMeasuredTier() {
+  if (readOverride()) return
+  detectPerf().then(({ tier }) => {
+    try {
+      localStorage.setItem(MEASURED_KEY, tier)
+    } catch {
+      /* armazenamento indisponível */
+    }
+  })
 }
 
 /**

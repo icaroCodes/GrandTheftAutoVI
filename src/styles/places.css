@@ -1,0 +1,54 @@
+/* Locais */
+.places {
+  padding-block: clamp(96px, 16vh, 180px);
+}
+.places__row {
+  display: flex;
+  gap: 12px;
+  height: clamp(420px, 70vh, 640px);
+}
+.place {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  text-align: left;
+  background: var(--bg-3);
+}
+.place img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.place__shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 3, 14, 0.42);
+}
+.place__name {
+  position: absolute;
+  left: 22px;
+  bottom: 22px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 40px);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.place.is-open .place__name {
+  writing-mode: horizontal-tb;
+  transform: none;
+  bottom: 64px;
+}
+.place__blurb {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  font-size: 15px;
+  color: var(--muted);
+}

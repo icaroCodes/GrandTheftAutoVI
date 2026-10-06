@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 /**
- * Pré-carrega uma sequência de frames e desenha no canvas com object-fit "cover" (padrão) ou "contain".
- * O primeiro frame é carregado com prioridade; os demais em segundo plano.
+ * Sequência de frames desenhada num canvas com object-fit "cover" (padrão) ou "contain".
+ * start: 'idle' espera o load da página (frames que só aparecem depois da entrada);
+ * 'near' espera o canvas chegar a duas telas de distância. Baixar tudo no início
+ * disputava banda com a capa e atrasava o LCP.
  */
-export function useFrameSequence(urls: string[], fit: 'cover' | 'contain' = 'cover') {
+export function useFrameSequence(urls: string[], fit: 'cover' | 'contain' = 'cover', start: 'idle' | 'near' = 'near') {
   const images = useRef<HTMLImageElement[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const current = useRef(0)
@@ -52,21 +54,43 @@ export function useFrameSequence(urls: string[], fit: 'cover' | 'contain' = 'cov
   )
 
   useEffect(() => {
-    images.current = urls.map((src, i) => {
-      const image = new Image()
-      image.decoding = 'async'
-      if (i === 0) image.fetchPriority = 'high'
-      image.src = src
-      // redesenha quando o frame atual terminar de carregar
-      image.onload = () => {
-        if (i === current.current) draw(i)
-      }
-      return image
-    })
+    let cancelled = false
+    const load = () => {
+      if (cancelled || images.current.length) return
+      images.current = urls.map((src, i) => {
+        const image = new Image()
+        image.decoding = 'async'
+        image.src = src
+        // redesenha quando o frame atual terminar de carregar
+        image.onload = () => {
+          if (i === current.current) draw(i, true)
+        }
+        return image
+      })
+    }
+    images.current = []
+
+    let io: IntersectionObserver | undefined
+    let timer = 0
+    const onLoad = () => (timer = window.setTimeout(load, 300))
+    if (start === 'idle') {
+      if (document.readyState === 'complete') onLoad()
+      else window.addEventListener('load', onLoad, { once: true })
+    } else if (canvasRef.current) {
+      io = new IntersectionObserver(([e]) => e.isIntersecting && load(), { rootMargin: '200% 0px' })
+      io.observe(canvasRef.current)
+    }
+
     const onResize = () => draw(current.current, true)
     window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [urls, draw])
+    return () => {
+      cancelled = true
+      io?.disconnect()
+      clearTimeout(timer)
+      window.removeEventListener('load', onLoad)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [urls, draw, start])
 
   return { canvasRef, draw }
 }

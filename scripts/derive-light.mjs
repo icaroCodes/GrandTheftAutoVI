@@ -33,6 +33,26 @@ function poster(name, time, width) {
   console.log(`video/${name}.webp`)
 }
 
+/**
+ * Capa do hero em resolução menor. As camadas têm transparência, então o alfa precisa ser mantido;
+ * as coordenadas do layout são relativas, por isso só a largura muda.
+ */
+function heroVariant(dir, width) {
+  const src = join(root, 'public', 'img', dir)
+  const dest = join(root, 'public', 'img', `${dir}-sm`)
+  mkdirSync(dest, { recursive: true })
+  for (const f of readdirSync(src)) {
+    const alpha = f !== 'poster.webp'
+    run([
+      '-i', join(src, f), '-vf', `scale=${width}:-2:flags=lanczos`,
+      '-c:v', 'libwebp', '-quality', alpha ? '82' : '78', ...(alpha ? ['-pix_fmt', 'yuva420p'] : []), join(dest, f),
+    ])
+  }
+  console.log(`img/${dir}-sm: ${readdirSync(dest).length} camadas em ${width}px`)
+}
+
+heroVariant('hero', 1600)
+heroVariant('hero-m', 1080)
 smallFrames('vice-beach', 900, 62)
 smallFrames('logo-reveal', 720, 66)
 poster('leonida-scrub', 1.6, 1280)

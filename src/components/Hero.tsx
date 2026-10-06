@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap, useGSAP, useScrollTo } from '../lib/scroll'
-import { HERO_DESKTOP, HERO_MOBILE, img, type HeroLayout } from '../lib/assets'
+import { HERO_DESKTOP, HERO_MOBILE, heroImageDir, img, type HeroLayout } from '../lib/assets'
 import { frameSet, usePerf } from '../lib/perf'
 import { useFrameSequence } from '../lib/frames'
 import { STORY } from '../lib/content'
@@ -20,7 +20,7 @@ export function Hero({ intro }: { intro: boolean }) {
   const [layout, setLayout] = useState<HeroLayout>(pickLayout)
   const tier = usePerf()
   const frames = useMemo(() => frameSet('vice-beach', 99, tier), [tier])
-  const { canvasRef, draw } = useFrameSequence(frames)
+  const { canvasRef, draw } = useFrameSequence(frames, 'cover', 'idle')
   const scrollTo = useScrollTo()
 
   useEffect(() => {
@@ -234,9 +234,11 @@ export function Hero({ intro }: { intro: boolean }) {
   )
 
   const ar = layout.width / layout.height
+  const dir = heroImageDir(layout)
 
   return (
     <section ref={root} className="hero" id="inicio" aria-label="Grand Theft Auto VI" style={{ ['--ar' as string]: ar }}>
+      <h1 className="sr-only">Grand Theft Auto VI</h1>
       <div className="hero__reveal" ref={reveal}>
         <canvas ref={canvasRef} className="hero__canvas" />
         <div className="hero__shade" />
@@ -246,22 +248,22 @@ export function Hero({ intro }: { intro: boolean }) {
       <div className="hero__stage">
         <div className="hero__intro">
           <div className="hero__piece hero__piece--poster">
-            <img className="hero__poster" src={img(`${layout.dir}/poster`)} alt="" fetchPriority="high" />
+            <img className="hero__poster" src={img(`${dir}/poster`)} alt="" fetchPriority="high" />
           </div>
           {layout.shards.map((_, i) => (
             <div key={i} className="hero__piece hero__piece--shard">
-              <img className="hero__shard" src={img(`${layout.dir}/shard${i}`)} alt="" />
+              <img className="hero__shard" src={img(`${dir}/shard${i}`)} alt="" />
             </div>
           ))}
-          <img className="hero__logo-vi" src={img(`${layout.dir}/logo-vi`)} alt="" />
+          <img className="hero__logo-vi" src={img(`${dir}/logo-vi`)} alt="" />
           <div className="hero__piece hero__piece--logo">
-            <img className="hero__logo" src={img(`${layout.dir}/logo`)} alt="Grand Theft Auto VI" />
+            <img className="hero__logo" src={img(`${dir}/logo`)} alt="" />
           </div>
           <div
             className="hero__piece hero__piece--gta"
             style={{ ['--band-top' as string]: `${layout.textBand[0]}%`, ['--band-bottom' as string]: `${layout.textBand[1]}%` }}
           >
-            <img className="hero__logo-gta" src={img(`${layout.dir}/logo-gta`)} alt="" />
+            <img className="hero__logo-gta" src={img(`${dir}/logo-gta`)} alt="" />
           </div>
         </div>
       </div>

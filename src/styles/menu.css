@@ -1,0 +1,331 @@
+/* Menu (estilo oficial) */
+.vmenu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  background: #1c1c30;
+}
+.vmenu__art {
+  position: relative;
+  overflow: hidden;
+  background: #25223f;
+}
+.vmenu__art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(18, 16, 34, 0.85) 0%, rgba(18, 16, 34, 0) 32%);
+  pointer-events: none;
+}
+.vmenu__vi {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: clamp(240px, 21vw, 420px);
+  translate: -50% -50%;
+  filter: drop-shadow(0 0 28px rgba(255, 220, 245, 0.28));
+}
+.vmenu__preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vmenu__bar {
+  position: absolute;
+  left: clamp(24px, 3vw, 58px);
+  right: clamp(24px, 3vw, 58px);
+  bottom: clamp(28px, 6vh, 56px);
+  z-index: 2;
+}
+.vmenu__panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: clamp(28px, 5vh, 46px) clamp(24px, 2.5vw, 48px) clamp(24px, 5vh, 46px) clamp(28px, 4.3vw, 84px);
+  background: #1c1c30;
+  overflow-y: auto;
+}
+.vmenu__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vmenu__brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.vmenu__brand img {
+  width: 34px;
+  height: auto;
+}
+.vmenu__brand span {
+  margin-left: 22px;
+  padding-left: 22px;
+  border-left: 1.5px solid rgba(230, 225, 255, 0.55);
+  font-family: var(--font-rs);
+  font-weight: 700;
+  font-size: clamp(16px, 1.1vw, 21px);
+  line-height: 1.3;
+  color: #e6e1ff;
+}
+.vmenu__close {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #34305f;
+  color: #bdb6ff;
+  transition:
+    background-color 0.3s,
+    transform 0.4s var(--ease);
+}
+.vmenu__close:hover {
+  background: #433d78;
+  transform: rotate(90deg);
+}
+.vmenu__close svg {
+  width: 22px;
+  height: 22px;
+}
+.vmenu__list {
+  list-style: none;
+  margin: clamp(32px, 9vh, 92px) 0 0;
+  padding: 0;
+}
+.vmenu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  font-family: var(--font-menu);
+  font-weight: 400;
+  font-size: clamp(40px, 3.5vw, 68px);
+  line-height: 1.36;
+  text-transform: uppercase;
+  text-align: left;
+  color: #c9bcf3;
+  transition: color 0.25s;
+}
+.vmenu__item:hover,
+.vmenu__item:focus-visible {
+  color: #ffffff;
+}
+.vmenu__item.is-active {
+  color: #fff4b3;
+}
+.vmenu__list--sub .vmenu__item {
+  font-size: clamp(30px, 2.5vw, 46px);
+  line-height: 1.4;
+}
+.vmenu__item .chev {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+  color: #d9d2ff;
+  flex-shrink: 0;
+}
+.vmenu__ext {
+  font-family: var(--font-rs);
+  font-size: 0.5em;
+  color: #d9d2ff;
+}
+.vmenu__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-family: var(--font-rs);
+  font-weight: 700;
+  font-size: 15px;
+  color: #9e96d6;
+}
+.vmenu__back:hover {
+  color: #fff;
+}
+.vmenu__back .chev {
+  width: 18px;
+  height: 18px;
+}
+.vmenu__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 32px;
+}
+.vmenu__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-rs);
+  font-weight: 700;
+  font-size: clamp(15px, 1vw, 18px);
+  color: #dcd6ff;
+}
+.vmenu__opt:hover {
+  color: #fff;
+}
+.vmenu__opt .chev {
+  width: 18px;
+  height: 18px;
+}
+.vmenu__globe {
+  width: 20px;
+  height: 20px;
+}
+.vmenu__pop-wrap {
+  position: relative;
+}
+.vmenu__pop {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 12px);
+  min-width: 220px;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  border-radius: 14px;
+  background: #2b2850;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6);
+}
+.vmenu__pop-wrap--right .vmenu__pop {
+  left: auto;
+  right: 0;
+  min-width: 160px;
+}
+.vmenu__pop a,
+.vmenu__pop button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: var(--font-rs);
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+  text-decoration: none;
+  color: #dcd6ff;
+}
+.vmenu__pop-title {
+  padding: 10px 12px 4px;
+  font-family: var(--font-rs);
+  font-size: 11px;
+  font-weight: 700;
+  color: #8f88c8;
+}
+.vmenu__pop small {
+  font-weight: 400;
+  color: #a39dd8;
+}
+.vmenu__pop-wrap--right .vmenu__pop {
+  min-width: 210px;
+}
+.vmenu__pop a:hover,
+.vmenu__pop button:hover {
+  background: #39356a;
+  color: #fff;
+}
+/* Mobile: só uma faixa do painel artístico; opções no topo, como no app oficial */
+@media (max-width: 900px) {
+  .vmenu {
+    grid-template-columns: 15vw 1fr;
+    background: transparent;
+  }
+  .vmenu__vi,
+  .vmenu__bar,
+  .vmenu__preview {
+    display: none;
+  }
+  .vmenu__art::after {
+    display: none;
+  }
+  .vmenu__art {
+    background: #2a2442;
+  }
+  .vmenu__panel {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'opts close'
+      'brand brand'
+      'list list';
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    padding: 28px 22px 32px 30px;
+    background: #18172a;
+    box-shadow: -30px 0 60px -20px rgba(0, 0, 0, 0.6);
+  }
+  .vmenu__head {
+    display: contents;
+  }
+  .vmenu__brand {
+    grid-area: brand;
+    margin-top: 34px;
+    padding-left: 14px;
+  }
+  .vmenu__brand img {
+    width: 26px;
+  }
+  .vmenu__brand span {
+    margin-left: 16px;
+    padding-left: 16px;
+    font-size: 16px;
+  }
+  .vmenu__close {
+    grid-area: close;
+    align-self: start;
+  }
+  .vmenu__foot {
+    grid-area: opts;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 4px 0 0;
+    padding: 0;
+  }
+  .vmenu__opt {
+    font-size: 16px;
+  }
+  /* as opções abrem para baixo no topo */
+  .vmenu__opt .chev {
+    rotate: 90deg !important;
+  }
+  .vmenu__pop,
+  .vmenu__pop-wrap--right .vmenu__pop {
+    top: calc(100% + 8px);
+    bottom: auto;
+    left: 0;
+    right: auto;
+    z-index: 3;
+  }
+  .vmenu__list {
+    grid-area: list;
+    margin-top: 44px;
+    padding-left: 14px;
+  }
+  .vmenu__item {
+    font-size: clamp(34px, 10.4vw, 50px);
+    line-height: 1.34;
+  }
+  .vmenu__list--sub .vmenu__item {
+    font-size: clamp(26px, 7.4vw, 36px);
+  }
+  .vmenu__item .chev {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Movimento reduzido (opção do menu) */
+html[data-motion='reduced'] .hero__chev,
+html[data-motion='reduced'] .coll__item img {
+  animation: none !important;
+}

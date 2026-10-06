@@ -12,7 +12,8 @@
     "assets:images": "node scripts/optimize-images.mjs",
     "assets:media": "node scripts/extract-media.mjs",
     "assets": "npm run assets:fetch && npm run assets:images && npm run assets:media && npm run assets:light",
-    "assets:light": "node scripts/derive-light.mjs"
+    "assets:light": "node scripts/derive-light.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -23,6 +24,7 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

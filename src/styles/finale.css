@@ -1,0 +1,56 @@
+/* Final */
+.finale {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.finale__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.finale__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(8vh, 40px);
+  padding-inline: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.cd {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 14px;
+  margin: 0;
+  font-family: var(--font-rs);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.cd__days {
+  font-size: clamp(72px, 9vw, 140px);
+  line-height: 0.9;
+  color: var(--pink);
+}
+.cd__clock {
+  flex-basis: 100%;
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: none;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.finale__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}

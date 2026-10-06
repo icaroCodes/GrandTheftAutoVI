@@ -4,10 +4,11 @@ import { responsive, video, videoPoster } from '../lib/assets'
 import { usePerf } from '../lib/perf'
 import { gsap, useGSAP } from '../lib/scroll'
 import { VideoModal } from './VideoModal'
+import { LazyVideo } from './LazyVideo'
 
 function TrailerCard({ trailer, featured, onPlay }: { trailer: Trailer; featured?: boolean; onPlay: () => void }) {
   return (
-    <button className={`tcard ${featured ? 'tcard--featured' : ''}`} onClick={onPlay} aria-label={`Assistir: ${trailer.title}`}>
+    <button className={`tcard ${featured ? 'tcard--featured' : ''}`} onClick={onPlay}>
       <img {...(featured ? responsive(trailer.image) : { src: trailer.image })} alt="" loading="lazy" />
       <span className="tcard__veil" />
       <span className="tcard__meta">
@@ -55,7 +56,7 @@ export function Trailers() {
         {lite ? (
           <img className="trailers__bg" src={videoPoster('trailers-loop')} alt="" loading="lazy" />
         ) : (
-          <video className="trailers__bg" src={video('trailers-loop')} poster={videoPoster('trailers-loop')} autoPlay muted loop playsInline preload="metadata" />
+          <LazyVideo className="trailers__bg" src={video('trailers-loop')} poster={videoPoster('trailers-loop')} />
         )}
       </div>
       <div className="container">

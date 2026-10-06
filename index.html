@@ -2,25 +2,52 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/img/brand/vi.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b0612" />
-    <meta name="description" content="Vice City, USA. Trailers, personagens, Leonida e pré-venda de Grand Theft Auto VI, que chega em 19 de novembro de 2026." />
     <title>Grand Theft Auto VI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <!-- capa certa para cada orientação (mesmo critério de pickLayout no Hero) -->
-    <link rel="preload" as="image" href="/img/hero/poster.webp" media="(min-aspect-ratio: 85/100)" fetchpriority="high" />
-    <link rel="preload" as="image" href="/img/hero-m/poster.webp" media="(max-aspect-ratio: 85/100)" fetchpriority="high" />
+    <meta name="description" content="Vice City, USA. Trailers, personagens, Leonida e pré-venda de Grand Theft Auto VI, que chega em 19 de novembro de 2026." />
+    <meta name="theme-color" content="#0b0612" />
+    <link rel="icon" type="image/webp" href="/img/brand/vi.webp" />
+
+    <!-- VITE_SITE_URL (.env) deixa as URLs absolutas, que é o que WhatsApp e redes sociais exigem -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Grand Theft Auto VI" />
+    <meta property="og:description" content="Jason e Lucia em Vice City. Trailers, personagens, Leonida e pré-venda." />
+    <meta property="og:image" content="%VITE_SITE_URL%/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- fontes locais: sem a ida ao Google Fonts, que bloqueava a renderização -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/anton-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-latin.woff2" crossorigin />
+
+    <!-- mesma regra de heroImageDir() em src/lib/assets.ts -->
+    <link rel="preload" as="image" fetchpriority="high" href="/img/hero-m-sm/poster.webp" media="(max-aspect-ratio: 85/100) and (max-width: 600px)" />
+    <link rel="preload" as="image" fetchpriority="high" href="/img/hero-m/poster.webp" media="(max-aspect-ratio: 85/100) and (min-width: 601px)" />
+    <link rel="preload" as="image" fetchpriority="high" href="/img/hero-sm/poster.webp" media="(min-aspect-ratio: 85/100) and (max-width: 850px), (min-aspect-ratio: 85/100) and (max-width: 1700px) and (max-resolution: 1dppx)" />
+    <link rel="preload" as="image" fetchpriority="high" href="/img/hero/poster.webp" media="(min-aspect-ratio: 85/100) and (min-width: 851px) and (min-resolution: 1.01dppx), (min-aspect-ratio: 85/100) and (min-width: 1701px)" />
     <link rel="preload" as="image" href="/img/brand/vi-palms.svg" />
-    <link rel="preload" as="font" type="font/woff" href="/fonts/GTAArtDeco_CondensedHeavy.woff" crossorigin />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Grand Theft Auto VI",
+        "author": { "@type": "Organization", "name": "Rockstar Games" },
+        "gamePlatform": ["PlayStation 5", "Xbox Series X|S"],
+        "datePublished": "2026-11-19",
+        "inLanguage": "pt-BR"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Grand Theft Auto VI</h1>
+      <p>Jason e Lucia em Vice City, no estado de Leonida. Chega em 19 de novembro de 2026 para PlayStation 5 e Xbox Series X|S.</p>
+      <p>Esta página precisa de JavaScript para as animações.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

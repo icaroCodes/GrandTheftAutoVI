@@ -1,0 +1,179 @@
+/* Edições */
+.editions {
+  position: relative;
+  padding: clamp(96px, 16vh, 180px) 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+.editions__banner {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 90vh;
+  z-index: -1;
+}
+.editions__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+}
+.editions__banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(11, 6, 18, 0.5), var(--bg));
+}
+.toggle {
+  position: relative;
+  display: inline-flex;
+  margin-top: 30px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--faint);
+  background: rgba(11, 6, 18, 0.6);
+}
+.toggle button {
+  position: relative;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.toggle__pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--pink);
+}
+.toggle__label {
+  position: relative;
+  transition: color 0.3s;
+}
+.toggle button[aria-selected='true'] .toggle__label {
+  color: #1a0b22;
+}
+.editions__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 40px);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.edition {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  padding: clamp(16px, 2vw, 24px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--faint);
+  perspective: 1200px;
+}
+.edition--ultimate {
+  border-color: rgba(255, 79, 163, 0.55);
+}
+.edition__cover {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+.edition__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.edition__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px 6px 6px;
+}
+.edition__name {
+  font-size: clamp(34px, 3.4vw, 52px);
+}
+.edition__price {
+  margin: 8px 0 16px;
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1.1;
+}
+.edition__price small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.edition__items {
+  flex: 1;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+.edition__items li {
+  padding: 10px 0;
+  border-top: 1px solid var(--faint);
+  font-weight: 600;
+}
+.editions__note {
+  margin: 28px auto 0;
+  max-width: 1080px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Carrossel Ultimate */
+.ucar {
+  margin-top: clamp(96px, 14vh, 160px);
+}
+.ucar__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin-bottom: 36px;
+}
+.ucar__head .lead {
+  margin: 0;
+}
+.ucar__title {
+  font-size: clamp(40px, 5vw, 80px);
+}
+.ucar__viewport {
+  overflow: hidden;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+}
+.ucar__track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  margin: 0;
+  padding: 10px 0 20px;
+  list-style: none;
+  cursor: grab;
+}
+.ucar__item {
+  width: clamp(240px, 26vw, 380px);
+  user-select: none;
+}
+.ucar__item img {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  border-radius: 16px;
+  pointer-events: none;
+}
+.ucar__item span {
+  display: block;
+  padding-top: 10px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}

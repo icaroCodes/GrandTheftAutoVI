@@ -17,8 +17,11 @@ import { Extras } from './components/Extras'
 import { Footer } from './components/Footer'
 
 export default function App() {
-  // a página só monta depois do teste de desempenho, assim cada seção já pega os assets do nível certo
+  // a capa monta assim que o nível de desempenho sai; o resto só depois que a capa carregou,
+  // ainda atrás do loading. Montar tudo junto travava a CPU no celular antes da capa aparecer.
   const [tier, setTier] = useState<PerfTier | null>(null)
+  const [rest, setRest] = useState(false)
+  const showRest = useCallback(() => setRest(true), [])
   const [loading, setLoading] = useState(true)
   const [revealed, setRevealed] = useState(false)
   const reveal = useCallback(() => setRevealed(true), [])
@@ -43,24 +46,28 @@ export default function App() {
 
   return (
     <PerfContext.Provider value={tier ?? 'high'}>
-      {loading && <Loader onDetected={setTier} onReveal={reveal} onDone={onDone} />}
+      {loading && <Loader onDetected={setTier} onHeroReady={showRest} onReveal={reveal} onDone={onDone} />}
       <Nav />
       {tier && (
         <>
           <main>
             <Hero intro={revealed} />
-            <Trailers />
-            <Characters />
-            <LeonidaScrub />
-            <Cast />
-            <Places />
-            <Editions />
-            <Vintage />
-            <Collection />
-            <Finale />
-            <Extras />
+            {rest && (
+              <>
+                <Trailers />
+                <Characters />
+                <LeonidaScrub />
+                <Cast />
+                <Places />
+                <Editions />
+                <Vintage />
+                <Collection />
+                <Finale />
+                <Extras />
+              </>
+            )}
           </main>
-          <Footer />
+          {rest && <Footer />}
         </>
       )}
     </PerfContext.Provider>

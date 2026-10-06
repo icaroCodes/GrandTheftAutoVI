@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { HERO_DESKTOP, HERO_MOBILE, img } from '../lib/assets'
-import { detectPerf, frameSet, readOverride, type PerfTier } from '../lib/perf'
+import { HERO_DESKTOP, HERO_MOBILE, heroImageDir, img } from '../lib/assets'
+import { initialTier, rememberMeasuredTier, type PerfTier } from '../lib/perf'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -21,13 +21,16 @@ function preload(urls: string[], onEach: () => void) {
   )
 }
 
-// O teste de desempenho roda durante o loading porque a página monta com os assets do nível escolhido.
+// O loading só espera as camadas da capa. O nível de desempenho sai de initialTier() na hora e o teste
+// de FPS roda depois da entrada, para não atrasar o primeiro conteúdo.
 export function Loader({
   onDetected,
+  onHeroReady,
   onReveal,
   onDone,
 }: {
   onDetected: (tier: PerfTier) => void
+  onHeroReady: () => void
   onReveal: () => void
   onDone: () => void
 }) {
@@ -41,27 +44,27 @@ export function Loader({
     document.documentElement.classList.add('is-loading')
 
     const layout = window.innerWidth / window.innerHeight < 0.85 ? HERO_MOBILE : HERO_DESKTOP
-    const hero = ['poster', 'logo', 'logo-gta', 'logo-vi', ...layout.shards.map((_, i) => `shard${i}`)].map((n) =>
-      img(`${layout.dir}/${n}`),
-    )
-    const total = hero.length + 10
+    const dir = heroImageDir(layout)
+    const hero = ['poster', 'logo', 'logo-gta', 'logo-vi', ...layout.shards.map((_, i) => `shard${i}`)].map((n) => img(`${dir}/${n}`))
+    const total = hero.length
     let loaded = 0
     const bump = () => setProgress(Math.min(1, ++loaded / total))
 
     const run = async () => {
-      const minTime = new Promise((r) => setTimeout(r, 2000))
-      const heroDone = preload(hero, bump)
-      const tier = readOverride() ?? (await detectPerf()).tier
+      const tier = initialTier()
       document.documentElement.dataset.perf = tier
       onDetected(tier)
-      await Promise.all([heroDone, preload(frameSet('vice-beach', 99, tier).slice(0, 10), bump), minTime])
+      // tempo mínimo só para o logo não piscar em conexão rápida
+      await Promise.all([preload(hero, bump), new Promise((r) => setTimeout(r, 700))])
       setProgress(1)
-      await new Promise((r) => setTimeout(r, 500))
+      onHeroReady()
+      // tempo para as outras seções montarem antes do loading sair
+      await new Promise((r) => setTimeout(r, 400))
       setVisible(false)
       onReveal()
     }
     run()
-  }, [onDetected, onReveal])
+  }, [onDetected, onHeroReady, onReveal])
 
   const pct = Math.round(progress * 100)
 
@@ -70,6 +73,8 @@ export function Loader({
       onExitComplete={() => {
         document.documentElement.classList.remove('is-loading')
         onDone()
+        // depois da animação de entrada (~2 s), com a página parada
+        setTimeout(rememberMeasuredTier, 2500)
       }}
     >
       {visible && (

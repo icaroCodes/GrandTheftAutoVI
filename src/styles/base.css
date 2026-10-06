@@ -1,0 +1,274 @@
+/* Fontes: Anton e Manrope (SIL Open Font License), servidas localmente */
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/anton-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/manrope-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0b0612;
+  --bg-2: #150a20;
+  --bg-3: #1f0f2e;
+  --ink: #fff4f8;
+  --muted: rgba(255, 236, 246, 0.68);
+  --faint: rgba(255, 236, 246, 0.14);
+  --pink: #ff4fa3;
+  --orange: #ffb35c;
+  --yellow: #ffd76b;
+  --violet: #8a3dff;
+  --radius: 20px;
+  --gutter: clamp(16px, 4vw, 56px);
+  --max: 1320px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+  --font-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-rs: 'Manrope', system-ui, sans-serif;
+  --font-menu: 'Anton', 'Impact', sans-serif;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--pink);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* Tipografia & utilidades */
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin: 0;
+}
+
+h2.display {
+  font-size: clamp(48px, 8.4vw, 132px);
+}
+
+
+
+.lead {
+  margin: 18px 0 0;
+  max-width: 560px;
+  font-size: clamp(16px, 1.3vw, 19px);
+  color: var(--muted);
+}
+
+.lead a {
+  color: var(--ink);
+  text-decoration-color: var(--pink);
+  text-underline-offset: 3px;
+}
+
+/* palavras mascaradas (SplitWords) */
+.wm {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* folga para acentos (Ó, É) e descendentes não serem cortados pela máscara */
+  padding: 0.14em 0.02em 0.08em;
+  margin: -0.14em -0.02em -0.08em;
+}
+.w {
+  display: inline-block;
+  will-change: transform;
+}
+
+.section-head {
+  margin-bottom: clamp(36px, 5vw, 72px);
+}
+.section-head--center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.section-head--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 48px;
+  flex-wrap: wrap;
+}
+.section-head--row .lead {
+  margin: 0;
+}
+
+.tag,
+.tag {
+  background: var(--pink);
+  color: #1a0b22;
+}
+.chip {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(10, 4, 18, 0.25);
+}
+
+.link-arrow {
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.link-arrow:hover {
+  color: var(--pink);
+}
+
+/* Botões */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease),
+    background-color 0.3s,
+    color 0.3s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+.btn--primary {
+  background: var(--pink);
+  color: #1a0b22;
+}
+.btn--primary:hover {
+  background: #ff6bb3;
+}
+.btn--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(10, 4, 18, 0.3);
+}
+.btn--ghost:hover {
+  background: #fff;
+  color: #1a0b22;
+}
+.btn--light {
+  background: var(--ink);
+  color: #1a0b22;
+}
+.btn--sm {
+  padding: 10px 18px;
+  font-size: 12px;
+}
+.btn--lg {
+  padding: 18px 34px;
+  font-size: 15px;
+}
+.btn--block {
+  width: 100%;
+}
+
+.platforms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.platforms__ps5 {
+  height: 18px;
+  width: auto;
+}
+.platforms__xbox {
+  height: 19px;
+  width: auto;
+}
+
+/* texto só para leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

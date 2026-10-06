@@ -3,6 +3,7 @@ import { PROTAGONISTS, type Protagonist } from '../lib/content'
 import { responsive, video, videoPoster } from '../lib/assets'
 import { usePerf } from '../lib/perf'
 import { gsap, useGSAP } from '../lib/scroll'
+import { LazyVideo } from './LazyVideo'
 
 function Character({ c, flip }: { c: Protagonist; flip: boolean }) {
   const root = useRef<HTMLElement>(null)
@@ -80,7 +81,7 @@ function Character({ c, flip }: { c: Protagonist; flip: boolean }) {
           {lite ? (
             <img src={videoPoster(c.clip)} alt="" loading="lazy" />
           ) : (
-            <video src={video(c.clip)} poster={videoPoster(c.clip)} autoPlay muted loop playsInline preload="metadata" />
+            <LazyVideo src={video(c.clip)} poster={videoPoster(c.clip)} />
           )}
           <figcaption>{c.quotes[1]}</figcaption>
         </figure>

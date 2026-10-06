@@ -1,0 +1,192 @@
+/* Responsivo */
+@media (max-width: 960px) {
+
+  .tcard--featured {
+    aspect-ratio: 16 / 10;
+  }
+  .trailers__row {
+    grid-template-columns: 1fr;
+  }
+
+  /* no celular a colagem dos personagens vira grade de 2 colunas */
+  .char {
+    padding-block: 40px;
+  }
+  .char__bigname {
+    top: 18px;
+  }
+  .char__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .char__main,
+  .char--flip .char__main {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 4 / 5;
+  }
+  .char--jason .char__main img {
+    object-position: 76% 18%;
+    transform-origin: 76% 18%;
+  }
+  .char__copy,
+  .char--flip .char__copy {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin: 20px 0 8px;
+  }
+  .char__clip,
+  .char--flip .char__clip {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin: 8px 4px 6px;
+    transform: rotate(-1.5deg);
+  }
+  .char--flip .char__clip {
+    transform: rotate(1.5deg);
+  }
+  .char__img--a,
+  .char--flip .char__img--a,
+  .char__img--b,
+  .char--flip .char__img--b {
+    grid-row: auto;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+  }
+  .char__img--a,
+  .char--flip .char__img--a {
+    grid-column: 2;
+  }
+  .char__img--b,
+  .char--flip .char__img--b {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  .cast__panel {
+    width: 100vw;
+    margin-right: 0;
+  }
+  .cast__tint {
+    background: rgba(11, 6, 18, 0.7);
+  }
+  .cast__copy {
+    top: auto;
+    bottom: 60px;
+    translate: none;
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+  }
+  .cast__bio {
+    display: none;
+  }
+  .cast__fg {
+    height: 64%;
+    right: 50%;
+    translate: 50% 0;
+    bottom: auto;
+    top: 8%;
+  }
+  .cast__photo {
+    display: none;
+  }
+
+  .places__row {
+    flex-direction: column;
+    height: auto;
+  }
+  .place {
+    flex: none !important;
+    height: 140px;
+  }
+  .place.is-open {
+    height: 360px;
+  }
+  .place__name,
+  .place.is-open .place__name {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+  .place:not(.is-open) .place__name {
+    bottom: 22px;
+  }
+
+  .editions__grid,
+  .vintage__inner,
+  .coll__inner,
+  .extras__features,
+  .news {
+    grid-template-columns: 1fr;
+  }
+  .vintage {
+    min-height: auto;
+    padding: 110px 0 90px;
+  }
+  /* colagem vira grade no celular */
+  .vintage__collage {
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .vintage__shot {
+    position: relative;
+    inset: auto;
+    width: auto;
+    border-width: 3px;
+    aspect-ratio: 4 / 5;
+  }
+  .vintage__shot.v1,
+  .vintage__shot.v3 {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+  }
+  .feature {
+    aspect-ratio: 4 / 5;
+  }
+  .feature img {
+    object-position: 60% 50%;
+  }
+  .coll__stage {
+    order: 2;
+  }
+  .lscrub__outro {
+    left: var(--gutter);
+    text-align: left;
+    top: 30%;
+  }
+}
+
+@media (max-width: 560px) {
+  .lscrub__title {
+    top: 12vh;
+  }
+  .modal {
+    padding: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* texto sobre foto: sombra em vez de véu em degradê */
+.hero__story,
+.tcard__meta,
+.lscrub__title,
+.lscrub__places,
+.lscrub__outro,
+.cast__copy,
+.place__name,
+.place__blurb,
+.feature__copy {
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
+}

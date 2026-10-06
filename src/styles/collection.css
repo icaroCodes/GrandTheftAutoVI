@@ -1,0 +1,43 @@
+/* Collector's Box */
+.coll {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(96px, 16vh, 180px) 0;
+  background: var(--bg-2);
+}
+.coll__inner {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  align-items: center;
+  gap: 40px;
+}
+.coll__stage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+.coll__box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 54%;
+  margin: -27% 0 0 -27%;
+  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.6));
+}
+.coll__item {
+  position: absolute;
+  z-index: 2;
+}
+.coll__item img {
+  width: 100%;
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.5));
+}
+.coll__logo {
+  width: min(320px, 70%);
+  margin-bottom: 14px;
+}
+.coll__title {
+  font-size: clamp(44px, 5vw, 84px);
+}
+.coll__copy .btn {
+  margin-top: 28px;
+}

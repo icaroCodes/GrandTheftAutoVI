@@ -20,7 +20,14 @@ export function LeonidaScrub() {
     const v = videoRef.current!
     let url = ''
     let cancelled = false
-    fetch(video('leonida-scrub'))
+    // só baixa quando a seção está a duas telas de distância
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return
+      io.disconnect()
+      fetchClip()
+    }, { rootMargin: '200% 0px' })
+    io.observe(root.current!)
+    const fetchClip = () => fetch(video('leonida-scrub'))
       .then((r) => r.blob())
       .then((blob) => {
         if (cancelled) return
@@ -34,6 +41,7 @@ export function LeonidaScrub() {
       })
     return () => {
       cancelled = true
+      io.disconnect()
       if (url) URL.revokeObjectURL(url)
     }
   }, [lite])

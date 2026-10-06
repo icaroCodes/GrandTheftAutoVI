@@ -1,0 +1,45 @@
+/* Loading */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: clamp(32px, 6vh, 56px);
+  padding: 24px;
+  overflow: hidden;
+  background: #14131f;
+}
+.loader__logo {
+  position: relative;
+  width: clamp(210px, 26vw, 400px);
+  aspect-ratio: 819 / 540;
+  /* o brilho no pai é aplicado depois da máscara dos filhos */
+}
+.loader__vi {
+  position: absolute;
+  inset: 0;
+  -webkit-mask: var(--vi) center / contain no-repeat;
+  mask: var(--vi) center / contain no-repeat;
+}
+.loader__vi--base {
+  background: rgba(255, 255, 255, 0.14);
+}
+.loader__vi--fill {
+  background: linear-gradient(0deg, #ffd76b 0%, #ff9a6b 24%, #ff4fa3 52%, #a64dff 82%, #e9dcff 100%);
+}
+.loader__pct {
+  font-family: var(--font-menu);
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* Modo leve (html[data-perf], decidido no loading) */
+html[data-perf='low'] .hero__chev {
+  animation: none;
+}

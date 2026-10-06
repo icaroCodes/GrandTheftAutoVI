@@ -25,3 +25,7 @@ dist-ssr
 
 # Originais baixados do site oficial (recrie com: node scripts/fetch-assets.mjs)
 assets-src
+
+# Playwright
+test-results
+playwright-report

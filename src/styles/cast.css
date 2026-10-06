@@ -1,0 +1,117 @@
+/* Elenco (scroll horizontal) */
+.cast {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+}
+.cast__track {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+.cast__intro {
+  width: min(560px, 90vw);
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cast__panel {
+  position: relative;
+  width: min(92vw, 1500px);
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  margin-right: 2vw;
+  border-radius: 0;
+}
+.cast__bg {
+  position: absolute;
+  inset: 0 -12%;
+  width: 124%;
+  height: 100%;
+  object-fit: cover;
+}
+.cast__tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 6, 18, 0.6);
+}
+.cast__fg {
+  position: absolute;
+  right: 2%;
+  bottom: 0;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+}
+.cast__copy {
+  position: absolute;
+  left: clamp(24px, 5vw, 80px);
+  top: 50%;
+  translate: 0 -50%;
+  width: min(460px, 80%);
+  z-index: 2;
+}
+.cast__name {
+  font-size: clamp(48px, 6vw, 100px);
+}
+.cast__tagline {
+  margin: 16px 0 12px;
+  font-size: clamp(18px, 1.5vw, 23px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--tone);
+}
+.cast__bio {
+  margin: 0;
+  color: var(--muted);
+}
+.cast__copy blockquote {
+  margin: 22px 0 22px;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.8vw, 26px);
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.cast__photo {
+  position: absolute;
+  right: 36%;
+  bottom: 10%;
+  z-index: 2;
+  width: clamp(160px, 16vw, 260px);
+  margin: 0;
+  border: 6px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8);
+}
+.cast__photo img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.cast__progress {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 24px;
+  height: 2px;
+  background: var(--faint);
+}
+.cast__progress i {
+  display: block;
+  height: 100%;
+  background: var(--pink);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+.cast__place {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tone);
+}

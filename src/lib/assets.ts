@@ -37,6 +37,16 @@ export type HeroLayout = {
   shards: [number, number, number, number][]
 }
 
+/**
+ * Pasta das camadas da capa. As variantes -sm (derive-light.mjs) têm metade do peso. A regra é a mesma
+ * dos media queries do preload no index.html, senão o navegador baixaria as duas versões.
+ */
+export function heroImageDir(layout: HeroLayout) {
+  if (layout.dir === 'hero-m') return window.innerWidth <= 600 ? 'hero-m-sm' : 'hero-m'
+  const small = window.innerWidth <= 850 || (window.devicePixelRatio <= 1 && window.innerWidth <= 1700)
+  return small ? 'hero-sm' : 'hero'
+}
+
 export const HERO_DESKTOP: HeroLayout = {
   width: 2560,
   height: 1440,

@@ -1,0 +1,251 @@
+/* Hero */
+.hero {
+  --frame-top: max(72px, 8.5vh);
+  --card-w: min(60vw, calc((100vh - var(--frame-top) - 230px) * var(--ar)));
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #17172a;
+}
+.hero__reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+.hero__canvas {
+  width: 100%;
+  height: 100%;
+}
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  background: rgba(8, 3, 14, 0.5);
+}
+.hero__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: max(100%, calc(100vh * var(--ar)));
+  aspect-ratio: var(--ar);
+  pointer-events: none;
+}
+.hero__stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+}
+
+/* camadas da entrada (animadas só pela intro; as imagens dentro são do scroll) */
+.hero__intro,
+.hero__piece {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+/* cortina de cima para baixo revelando "grand theft auto" (--wipe animado pelo GSAP) */
+.hero__piece--gta {
+  --wipe: 110%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--wipe) - 6%), transparent calc(var(--wipe) + 2%));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--wipe) - 6%), transparent calc(var(--wipe) + 2%));
+}
+/* navegação aparece só no fim da entrada */
+html.hero-intro .nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* moldura invisível: define tamanho/posição da capa no estado inicial */
+.hero__frame {
+  position: absolute;
+  left: 50%;
+  top: var(--frame-top);
+  width: var(--card-w);
+  aspect-ratio: var(--ar);
+  translate: -50% 0;
+  pointer-events: none;
+}
+.hero__poster {
+  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.7);
+}
+.hero__bar {
+  position: absolute;
+  left: calc(50% - var(--card-w) / 2);
+  top: calc(var(--frame-top) + var(--card-w) / var(--ar) + clamp(24px, 4.5vh, 48px));
+  z-index: 3;
+  width: var(--card-w);
+}
+.rbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+.rbar__date {
+  margin: 0;
+  font-family: var(--font-rs);
+  max-width: 280px;
+  font-size: clamp(18px, 1.55vw, 28px);
+  font-weight: 800;
+  line-height: 1.22;
+  text-transform: uppercase;
+}
+.rbar__date span {
+  display: block;
+}
+.btn-reserve {
+  padding: clamp(14px, 1.6vw, 20px) clamp(26px, 2.6vw, 36px);
+  border-radius: 999px;
+  background: #ffb3d1;
+  color: #2a1330;
+  font-family: var(--font-rs);
+  font-size: clamp(16px, 1.15vw, 20px);
+  font-weight: 700;
+  transition:
+    transform 0.4s var(--ease),
+    background-color 0.3s,
+    box-shadow 0.4s var(--ease);
+}
+.btn-reserve:hover {
+  background: #ffc8de;
+  transform: translateY(-2px);
+}
+.rbar__platforms {
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  color: #fff;
+}
+.rbar__ps5 {
+  height: clamp(16px, 1.2vw, 21px);
+  width: auto;
+}
+.rbar__xbox {
+  height: clamp(17px, 1.25vw, 22px);
+  width: auto;
+}
+.hero__chev {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  z-index: 3;
+  width: 34px;
+  padding: 8px 4px;
+  translate: -50% 0;
+  color: #ff7eb6;
+  animation: chev 1.8s var(--ease) infinite;
+}
+.hero__chev svg {
+  display: block;
+  width: 100%;
+}
+@keyframes chev {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+/* Mobile (como no site oficial): data acima da capa; plataformas e botão abaixo */
+@media (max-width: 760px) {
+  .hero {
+    height: 100svh;
+    --date-top: clamp(84px, 12.5svh, 124px);
+    --frame-top: calc(var(--date-top) + clamp(96px, 13svh, 122px));
+    --card-w: min(80vw, calc((100svh - var(--frame-top) - 190px) * var(--ar)));
+  }
+  .hero__bar {
+    inset: 0;
+    width: auto;
+    translate: none;
+    pointer-events: none;
+  }
+  .hero .rbar {
+    display: block;
+  }
+  .hero .rbar__date {
+    position: absolute;
+    top: var(--date-top);
+    left: var(--gutter);
+    right: var(--gutter);
+    max-width: none;
+    text-align: center;
+    font-size: clamp(22px, 6.2vw, 30px);
+    line-height: 1.18;
+  }
+  .hero .rbar__platforms {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--frame-top) + var(--card-w) / var(--ar) + clamp(28px, 5svh, 52px));
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 34px;
+  }
+  .hero .rbar__ps5 {
+    height: 18px;
+  }
+  .hero .rbar__xbox {
+    height: 19px;
+  }
+  .hero .btn-reserve {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin-inline: auto;
+    top: calc(var(--frame-top) + var(--card-w) / var(--ar) + clamp(70px, 11svh, 104px));
+    padding: 17px 32px;
+    font-size: 19px;
+    pointer-events: auto;
+  }
+  .hero__chev {
+    bottom: 6px;
+  }
+  .rbar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+  .rbar__date {
+    max-width: none;
+  }
+  .rbar__platforms {
+    justify-self: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.hero__story {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: max(10vh, 48px);
+  z-index: 3;
+  max-width: 720px;
+  pointer-events: none;
+}
+.hero__story-title {
+  font-size: clamp(56px, 10vw, 168px);
+}
+.hero__story-body {
+  margin: 22px 0 0;
+  max-width: 600px;
+  font-size: clamp(15px, 1.35vw, 19px);
+  line-height: 1.65;
+  color: rgba(255, 244, 248, 0.88);
+}

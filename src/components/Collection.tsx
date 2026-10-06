@@ -47,7 +47,7 @@ export function Collection() {
           {ITEMS.map((item) => (
             <Item key={item.id} item={item} px={px} py={py} />
           ))}
-          <motion.img className="coll__box" src={img('collection/box')} alt="The Vice City Collection" style={{ x: boxX, y: boxY }} />
+          <motion.img className="coll__box" src={img('collection/box')} alt="The Vice City Collection" loading="lazy" style={{ x: boxX, y: boxY }} />
         </div>
 
         <div className="coll__copy">
