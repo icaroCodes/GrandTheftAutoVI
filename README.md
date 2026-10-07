@@ -31,7 +31,7 @@ acessibilidade, boas práticas e SEO 100.
 `npm run assets` baixa as artes e os trailers do site oficial e gera WebP, frames e clipes com ffmpeg. Os tempos
 de cada trecho estão em `scripts/extract-media.mjs`.
 
-Para as tags Open Graph funcionarem no deploy, preencha `VITE_SITE_URL` no `.env` com a URL pública.
+As tags Open Graph usam a URL de produção que a Vercel informa no build. Em outra hospedagem, copie `.env.example` para `.env` e preencha `SITE_URL`.
 
 ## Licença
 
